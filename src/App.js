@@ -2,6 +2,7 @@ import React from 'react';
 import Titles from "./components/Titles";
 import Form from './components/Form';
 import Weather from './components/Weather';
+import './index.css'
 
 const API_KEY = "6a57e5ac232be235638c6c132f0804f5";
 
@@ -24,30 +25,12 @@ class App extends React.Component {
     e.preventDefault();
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
-    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`);
-    const data = await api_call.json();
+    // const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`);
+    // const data = await api_call.json();
 
-    // const data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`).then(data=> {
-    //   data.json()
-    //   this.setState({
-    //     city: data.name,
-    //     country: data.sys.country,
-    //     temperature: data.main.temp,
-    //     description: data.weather[0].description,
-    //     humidity: data.main.humidity,
-    //     speed: data.wind.speed,
-    //     error:"",
-    //   });
-    // }).catch(error=> {
-    //   this.setState({
-    //     error: error.message
-    //   })
-    // })
-    // console.log(data)
-
-
-    if (city && country) { //Jei false(no name value ir no country value), si dalis nieko nedarys //
+    const data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`).then(data=> {
       console.log(data);
+      data.json()
       this.setState({
         city: data.name,
         country: data.sys.country,
@@ -57,18 +40,33 @@ class App extends React.Component {
         speed: data.wind.speed,
         error:"",
       });
-    } else {            //Error 
+    }).catch(error=> {
       this.setState({
-        city: undefined,
-        country: undefined,
-        temperature: undefined,
-        description: undefined,
-        humidity: undefined,
-        speed: undefined,
-        error: "Please fill the forms",
-      });
-    }
+        error: error.message
+      })
+    })
+
+    console.log(data);
+
+
+    // if (city && country) { //Jei false(no name value ir no country value), si dalis nieko nedarys //
+    //   console.log(data);
+    //   this.setState({
+    //     city: data.name,
+    //     country: data.sys.country,
+    //     temperature: data.main.temp,
+    //     description: data.weather[0].description,
+    //     humidity: data.main.humidity,
+    //     speed: data.wind.speed,
+    //     error:"",
+    //   });
+    // } else {            //Error 
+    //   this.setState({
+    //     error: "Please fill the forms",
+    //   });
+    // }
   } 
+
   render() {
     return(
       <div>
